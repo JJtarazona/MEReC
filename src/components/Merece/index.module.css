@@ -1,0 +1,57 @@
+.busqueda {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgb(72, 0, 255);
+  padding: 20px;
+  margin: 20px 0 20px 0px;
+  border-radius: 20px;
+  width: 90%;
+}
+
+.busqueda > * {
+  margin: 5px 0;
+}
+
+.contenedor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(16, 220, 193);
+}
+
+.inputs {
+  padding: 10px;
+  font-size: larger;
+}
+
+.input {
+  border-radius: 20px;
+  border: solid 1px white;
+  height: 30px;
+  font-size: large;
+  background-color: rgba(0, 255, 255, 0);
+  padding: 5px 15px;
+}
+
+input::placeholder {
+  color: rgb(255, 255, 255);
+}
+
+.btn {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: solid 1px white;
+  background-color: rgba(240, 248, 255, 0);
+  font-size: 20px;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.5s;
+}
+
+.btn:hover {
+  background-color: #fff;
+  color: black;
+}

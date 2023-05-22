@@ -5,7 +5,7 @@ import styles from "./Index.module.css";
 
 function NavBar() {
   return (
-    <div className={styles.link}>
+    <div className={styles.linkNavBar}>
       <Link to={PathRoutes.MERECE}>MEReC</Link>
       <Link to={PathRoutes.HOME}>Inicio</Link>
     </div>

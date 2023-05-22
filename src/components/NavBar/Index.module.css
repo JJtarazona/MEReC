@@ -1,3 +1,17 @@
 .linkNavBar {
-  color: aquamarine;
+  display: flex;
+  justify-content: flex-start;
+  background-color: #f2f2f2;
+  padding: 10px;
+}
+
+.linkNavBar a {
+  color: #333;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.linkNavBar a:hover {
+  color: #000;
+  text-decoration: underline;
 }
