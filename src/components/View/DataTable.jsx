@@ -102,8 +102,43 @@ function DataTable() {
       </table>
       <div className="mt-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <button className="text-gray-600 bg-gray-200 px1 rounded border border-gray-300">
+          <button
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+            className="text-gray-600 bg-gray-200 px1 rounded border border-gray-300 disabled:hover:bg-red-600 disabled:hover:text-white"
+          >
             {"<<"}
+          </button>
+          <button
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+            className="text-gray-600 bg-gray-200 px1 rounded border border-gray-300 disabled:hover:bg-red-600 disabled:hover:text-white"
+          >
+            {"<"}
+          </button>
+          //? Número de páginas de la tabla
+          {table.getPageOptions().map((value, key) => (
+            <button
+              key={key}
+              className="text-gray-600 bg-gray-200 px1 rounded border border-gray-300 disabled:hover:bg-red-600 disabled:hover:text-white"
+              onClick={() => table.setPageIndex(value)}
+            >
+              {value + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+            className="text-gray-600 bg-gray-200 px1 rounded border border-gray-300 disabled:hover:bg-red-600 disabled:hover:text-white"
+          >
+            {">"}
+          </button>
+          <button
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+            className="text-gray-600 bg-gray-200 px1 rounded border border-gray-300 disabled:hover:bg-red-600 disabled:hover:text-white"
+          >
+            {">>"}
           </button>
         </div>
       </div>
