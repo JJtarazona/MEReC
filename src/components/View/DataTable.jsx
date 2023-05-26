@@ -6,6 +6,7 @@ import {
   getPaginationRowModel,
 } from "@tanstack/react-table";
 import { defaulData } from "../utils/defaulData";
+import classNames from "classnames";
 
 function DataTable() {
   const [data, setData] = useState(defaulData);
@@ -116,11 +117,15 @@ function DataTable() {
           >
             {"<"}
           </button>
-          //? Número de páginas de la tabla
+
           {table.getPageOptions().map((value, key) => (
             <button
               key={key}
-              className="text-gray-600 bg-gray-200 px1 rounded border border-gray-300 disabled:hover:bg-red-600 disabled:hover:text-white"
+              className={classNames({
+                "text-gray-600 bg-gray-200 py-0.5 px-2 rounded border border-gray-300 disabled:hover:bg-red-600 disabled:hover:text-white": true,
+                "bg-indigo-200 text-indigo-700":
+                  value === table.getState().pagination.pageIndex,
+              })}
               onClick={() => table.setPageIndex(value)}
             >
               {value + 1}
@@ -140,6 +145,13 @@ function DataTable() {
           >
             {">>"}
           </button>
+        </div>
+        <div className="text-gray-600 font-semibold">
+          Mostrando de {Number(table.getRowModel().rows[0].id) + 1} a{" "}
+          {Number(
+            table.getRowModel().rows[table.getRowModel().rows.length - 1].id
+          ) + 1}{" "}
+          del total {defaulData.length} registros
         </div>
       </div>
     </div>
