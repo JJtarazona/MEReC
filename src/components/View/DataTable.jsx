@@ -14,45 +14,59 @@ function DataTable() {
   const columns = [
     {
       accessorKey: "id",
+      header: () => <span>#</span>,
     },
     {
       accessorKey: "date_rel",
+      header: () => <span>Día Relación</span>,
     },
     {
       accessorKey: "name_user",
+      header: () => <span>Nombre Usuario</span>,
     },
     {
       accessorKey: "type_doc",
+      header: () => <span>Tipo de Documento</span>,
     },
     {
       accessorKey: "number_doc",
+      header: () => <span># de documento</span>,
     },
     {
       accessorKey: "eps",
+      header: () => <span>EPS</span>,
     },
     {
       accessorKey: "number_auto",
+      header: () => <span># Autorización</span>,
     },
     {
       accessorKey: "date_auto",
+      header: () => <span>Día Autorización</span>,
     },
     {
       accessorKey: "date_venci",
+      header: () => <span>Día Vencimiento</span>,
     },
     {
       accessorKey: "copago",
+      header: () => <span>Copago</span>,
     },
     {
       accessorKey: "recibo",
+      header: () => <span># Recibo</span>,
     },
     {
       accessorKey: "Servicio",
+      header: () => <span>Servicio/s</span>,
     },
     {
       accessorKey: "date_start_tera",
+      header: () => <span>Inicio Terapia</span>,
     },
     {
       accessorKey: "date_end_tera",
+      header: () => <span>Fin de Terapias</span>,
     },
   ];
 
@@ -64,8 +78,8 @@ function DataTable() {
   });
 
   return (
-    <div className="px-6 py-4">
-      <table className="table-auto w-full">
+    <div className="px-6 py-4 text-center">
+      <table className="table-auto w-full ">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr
@@ -153,6 +167,17 @@ function DataTable() {
           ) + 1}{" "}
           del total {defaulData.length} registros
         </div>
+        <select
+          className="text-gray-600 border border-gray-300 rounded outline-indigo-700"
+          onChange={(e) => {
+            table.setPageSize(+e.target.value);
+          }}
+        >
+          <option value="10">10 pág.</option>
+          <option value="20">20 pág.</option>
+          <option value="25">25 pág.</option>
+          <option value="50">50 pág.</option>
+        </select>
       </div>
     </div>
   );
