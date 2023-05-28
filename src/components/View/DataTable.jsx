@@ -4,12 +4,23 @@ import {
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
+  getFilteredRowModel,
 } from "@tanstack/react-table";
 import { defaulData } from "../utils/defaulData";
 import classNames from "classnames";
+import { rankItem } from "@tanstack/match-sorter-utils";
+
+const funFilter = (row, columnId, filterValue, addMeta) => {
+  const itemRank = rankItem(row.getValue(columnId), filterValue);
+
+  addMeta({ itemRank });
+
+  return itemRank.passed;
+};
 
 function DataTable() {
   const [data, setData] = useState(defaulData);
+  const [globalFilter, setGlobalFilter] = useState("");
 
   const columns = [
     {
@@ -73,12 +84,28 @@ function DataTable() {
   const table = useReactTable({
     data,
     columns,
+    state: {
+      globalFilter,
+    },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    globalFilterFn: funFilter,
   });
+
+  // todo toca arreglar el placeholder, no muestra la palabra buscar
 
   return (
     <div className="px-6 py-4 text-center">
+      <div className="my-2 text-right">
+        <input
+          type="text"
+          onChange={(e) => setGlobalFilter(e.target.value)}
+          className="p-2 text-gray-600 border-2 border-gray-300 rounded-full outline-indigo-700"
+          placeholder="Buscar"
+        />
+      </div>
+
       <table className="table-auto w-full ">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -161,9 +188,9 @@ function DataTable() {
           </button>
         </div>
         <div className="text-gray-600 font-semibold">
-          Mostrando de {Number(table.getRowModel().rows[0].id) + 1} a{" "}
+          Mostrando de {Number(table.getRowModel().rows[0]?.id) + 1} a{" "}
           {Number(
-            table.getRowModel().rows[table.getRowModel().rows.length - 1].id
+            table.getRowModel().rows[table.getRowModel().rows.length - 1]?.id
           ) + 1}{" "}
           del total {defaulData.length} registros
         </div>
