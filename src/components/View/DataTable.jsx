@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -18,7 +18,27 @@ const funFilter = (row, columnId, filterValue, addMeta) => {
   return itemRank.passed;
 };
 
-function DataTable() {
+const DebouncedInput = ({ value: keyWord, onChange, ...props }) => {
+  const [value, setValue] = useState(keyWord);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      onChange(value);
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [value]);
+
+  return (
+    <input
+      {...props}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
+};
+
+const DataTable = () => {
   const [data, setData] = useState(defaulData);
   const [globalFilter, setGlobalFilter] = useState("");
 
@@ -93,16 +113,18 @@ function DataTable() {
     globalFilterFn: funFilter,
   });
 
-  // todo toca arreglar el placeholder, no muestra la palabra buscar
+  // ? toca arreglar el placeholder, no muestra la palabra buscar --
+  // ? arreglado con un className placeholder:text-gray-300
 
   return (
     <div className="px-6 py-4 text-center">
       <div className="my-2 text-right">
-        <input
+        <DebouncedInput
           type="text"
-          onChange={(e) => setGlobalFilter(e.target.value)}
-          className="p-2 text-gray-600 border-2 border-gray-300 rounded-full outline-indigo-700"
-          placeholder="Buscar"
+          value={globalFilter ?? " "}
+          onChange={(value) => setGlobalFilter(String(value))}
+          className="p-2 text-gray-600 border-2 border-gray-300 rounded-full outline-indigo-700 placeholder:text-gray-300"
+          placeholder="Buscar..."
         />
       </div>
 
@@ -208,6 +230,6 @@ function DataTable() {
       </div>
     </div>
   );
-}
+};
 
 export default DataTable;
