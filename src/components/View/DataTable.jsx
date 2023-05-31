@@ -5,6 +5,7 @@ import {
   useReactTable,
   getPaginationRowModel,
   getFilteredRowModel,
+  getSortedRowModel,
 } from "@tanstack/react-table";
 import { defaulData } from "../utils/defaulData";
 import classNames from "classnames";
@@ -41,6 +42,7 @@ const DebouncedInput = ({ value: keyWord, onChange, ...props }) => {
 const DataTable = () => {
   const [data, setData] = useState(defaulData);
   const [globalFilter, setGlobalFilter] = useState("");
+  const [sorting, setSorting] = useState([]);
 
   const columns = [
     {
@@ -122,6 +124,7 @@ const DataTable = () => {
     columns,
     state: {
       globalFilter,
+      sorting,
     },
     initialState: {
       pagination: {
@@ -132,6 +135,8 @@ const DataTable = () => {
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     globalFilterFn: funFilter,
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
   });
 
   // ? toca arreglar el placeholder, no muestra la palabra buscar --
