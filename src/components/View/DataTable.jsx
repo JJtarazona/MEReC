@@ -163,12 +163,23 @@ const DataTable = () => {
             >
               {headerGroup.headers.map((header) => (
                 <th key={header.id} className="py-5 px-4 text-left uppercase">
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
+                  {header.isPlaceholder ? null : (
+                    <div
+                      className={classNames({
+                        "cursor-pointer select-none":
+                          header.column.getCanSort(),
+                      })}
+                      onClick={header.column.getToggleSortingHandler()}
+                    >
+                      {flexRender(
                         header.column.columnDef.header,
                         header.getContext()
                       )}
+
+                      {{ asc: "⬆️", desc: "⬇️" }[header.column.getIsSorted()] ??
+                        ""}
+                    </div>
+                  )}
                 </th>
               ))}
             </tr>
