@@ -100,6 +100,24 @@ const DataTable = () => {
     {
       accessorKey: "date_end_tera",
       header: () => <span>Fin de Terapias</span>,
+      // enableSorting: false, >> Esto sirve para que no se ordenen
+    },
+
+    {
+      accessorKey: "actions",
+      header: "Acciones",
+      cell: (info) => {
+        return (
+          <div className="space-x-2">
+            <button className="btn-sm bg-green-400 px-4 py-1 rounded-full">
+              Editar
+            </button>
+            <button className="btn-sm bg-red-400 px-2 py-1 rounded-full">
+              Eliminar
+            </button>
+          </div>
+        );
+      },
     },
   ];
 
