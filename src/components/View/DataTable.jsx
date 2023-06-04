@@ -10,6 +10,12 @@ import {
 import { defaulData } from "../utils/defaulData";
 import classNames from "classnames";
 import { rankItem } from "@tanstack/match-sorter-utils";
+import {
+  BarsArrowDownIcon,
+  BarsArrowUpIcon,
+  MagnifyingGlassIcon,
+  ChevronUpDownIcon,
+} from "@heroicons/react/24/solid";
 
 const funFilter = (row, columnId, filterValue, addMeta) => {
   const itemRank = rankItem(row.getValue(columnId), filterValue);
@@ -100,7 +106,7 @@ const DataTable = () => {
     {
       accessorKey: "date_end_tera",
       header: () => <span>Fin de Terapias</span>,
-      // enableSorting: false, >> Esto sirve para que no se ordenen
+      enableSorting: false,
     },
 
     {
@@ -109,7 +115,7 @@ const DataTable = () => {
       cell: (info) => {
         return (
           <div className="space-x-2">
-            <button className="btn-sm bg-green-400 px-4 py-1 rounded-full">
+            <button className="btn-sm bg-blue-400 px-4 py-1 rounded-full hover:bg-green-500">
               Editar
             </button>
             <button className="btn-sm bg-red-400 px-2 py-1 rounded-full">
@@ -117,6 +123,7 @@ const DataTable = () => {
             </button>
           </div>
         );
+        enableSorting: false;
       },
     },
   ];
@@ -161,15 +168,18 @@ const DataTable = () => {
   // ? arreglado con un className placeholder:text-gray-300
 
   return (
-    <div className="px-6 py-4 text-center">
-      <div className="my-2 text-right">
-        <DebouncedInput
-          type="text"
-          value={globalFilter ?? " "}
-          onChange={(value) => setGlobalFilter(String(value))}
-          className="p-2 text-gray-600 border-2 border-gray-300 rounded-full outline-indigo-700 placeholder:text-gray-300"
-          placeholder="Buscar..."
-        />
+    <div className="px-6 py-4">
+      <div className="my-2 flex justify-end">
+        <div className="relative">
+          <DebouncedInput
+            type="text"
+            value={globalFilter ?? " "}
+            onChange={(value) => setGlobalFilter(String(value))}
+            className="px-6 py-2  text-gray-600 border-2 border-gray-300 rounded-full outline-indigo-700 placeholder:text-gray-300"
+            placeholder="Buscar..."
+          />
+          <MagnifyingGlassIcon className="w-5 h-5 absolute top-3 left-1" />
+        </div>
       </div>
 
       <table className="table-auto w-full ">
@@ -184,7 +194,7 @@ const DataTable = () => {
                   {header.isPlaceholder ? null : (
                     <div
                       className={classNames({
-                        "cursor-pointer select-none":
+                        "cursor-pointer select-none justify-between":
                           header.column.getCanSort(),
                       })}
                       onClick={header.column.getToggleSortingHandler()}
@@ -194,8 +204,13 @@ const DataTable = () => {
                         header.getContext()
                       )}
 
-                      {{ asc: "⬆️", desc: "⬇️" }[header.column.getIsSorted()] ??
-                        ""}
+                      {{
+                        asc: <BarsArrowUpIcon className="w-5 h-5" />,
+                        desc: <BarsArrowDownIcon className="w-5 h-5" />,
+                      }[header.column.getIsSorted()] ??
+                        (header.column.getCanSort() ? (
+                          <ChevronUpDownIcon className="w-5 h-5" />
+                        ) : null)}
                     </div>
                   )}
                 </th>
