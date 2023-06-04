@@ -15,6 +15,10 @@ import {
   BarsArrowUpIcon,
   MagnifyingGlassIcon,
   ChevronUpDownIcon,
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
 } from "@heroicons/react/24/solid";
 
 const funFilter = (row, columnId, filterValue, addMeta) => {
@@ -182,73 +186,76 @@ const DataTable = () => {
         </div>
       </div>
 
-      <table className="table-auto w-full ">
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr
-              key={headerGroup.id}
-              className="border-b border-gray-300 text-gray-600 bg-gray-100 rounded "
-            >
-              {headerGroup.headers.map((header) => (
-                <th key={header.id} className="py-5 px-4 text-left uppercase">
-                  {header.isPlaceholder ? null : (
-                    <div
-                      className={classNames({
-                        "cursor-pointer select-none justify-between":
-                          header.column.getCanSort(),
-                      })}
-                      onClick={header.column.getToggleSortingHandler()}
-                    >
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
+      <div className="overflow-auto">
+        <table className="table-auto w-full min-w-[560px]">
+          <thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr
+                key={headerGroup.id}
+                className="border-b border-gray-300 text-gray-600 bg-gray-100 rounded "
+              >
+                {headerGroup.headers.map((header) => (
+                  <th key={header.id} className="py-5 px-4 text-left uppercase">
+                    {header.isPlaceholder ? null : (
+                      <div
+                        className={classNames({
+                          "cursor-pointer select-none justify-between":
+                            header.column.getCanSort(),
+                        })}
+                        onClick={header.column.getToggleSortingHandler()}
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
 
-                      {{
-                        asc: <BarsArrowUpIcon className="w-5 h-5" />,
-                        desc: <BarsArrowDownIcon className="w-5 h-5" />,
-                      }[header.column.getIsSorted()] ??
-                        (header.column.getCanSort() ? (
-                          <ChevronUpDownIcon className="w-5 h-5" />
-                        ) : null)}
-                    </div>
-                  )}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
+                        {{
+                          asc: <BarsArrowUpIcon className="w-5 h-5" />,
+                          desc: <BarsArrowDownIcon className="w-5 h-5" />,
+                        }[header.column.getIsSorted()] ??
+                          (header.column.getCanSort() ? (
+                            <ChevronUpDownIcon className="w-5 h-5" />
+                          ) : null)}
+                      </div>
+                    )}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
 
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr
-              key={row.id}
-              className="text-gray-600 hover:bg-slate-500  hover:text-gray-900"
-            >
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className="py-2 px-4">
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="mt-4 flex items-center justify-between">
+          <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <tr
+                key={row.id}
+                className="text-gray-600 hover:bg-slate-500  hover:text-gray-900"
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id} className="py-2 px-4">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="mt-4 med:flex items-center justify-between space-y-4 text-center">
         <div className="flex items-center gap-2">
           <button
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
             className="text-gray-600 bg-gray-200 px1 rounded border border-gray-300 disabled:hover:bg-red-600 disabled:hover:text-white"
           >
-            {"<<"}
+            <ChevronDoubleLeftIcon className="w-5 h-7" />
           </button>
           <button
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
             className="text-gray-600 bg-gray-200 px1 rounded border border-gray-300 disabled:hover:bg-red-600 disabled:hover:text-white"
           >
-            {"<"}
+            <ChevronLeftIcon className="w-5 h-7" />
           </button>
 
           {table.getPageOptions().map((value, key) => (
@@ -269,14 +276,14 @@ const DataTable = () => {
             disabled={!table.getCanNextPage()}
             className="text-gray-600 bg-gray-200 px1 rounded border border-gray-300 disabled:hover:bg-red-600 disabled:hover:text-white"
           >
-            {">"}
+            <ChevronRightIcon className="w-5 h-7" />
           </button>
           <button
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
             className="text-gray-600 bg-gray-200 px1 rounded border border-gray-300 disabled:hover:bg-red-600 disabled:hover:text-white"
           >
-            {">>"}
+            <ChevronDoubleRightIcon className="w-5 h-7" />
           </button>
         </div>
         <div className="text-gray-600 font-semibold">
@@ -284,7 +291,7 @@ const DataTable = () => {
           {getStateTable().finalIndex} de {getStateTable().totalRows} registros
         </div>
         <select
-          className="text-gray-600 border border-gray-300 rounded outline-indigo-700"
+          className="text-gray-600 border border-gray-300 rounded outline-indigo-700 p-3 rounded-full"
           onChange={(e) => {
             table.setPageSize(+e.target.value);
           }}
